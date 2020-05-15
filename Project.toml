@@ -1,0 +1,10 @@
+name = "AutomaticDiff"
+uuid = "9208c16c-1f39-4e9d-84ee-caa3e78d7b02"
+authors = ["Maciej Tarnowski <maciek_tarnowski@yahoo.pl>"]
+version = "0.1.0"
+
+[deps]
+DiffRules = "b552c78f-8df3-52c6-915a-8e097449b14b"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+NaNMath = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
