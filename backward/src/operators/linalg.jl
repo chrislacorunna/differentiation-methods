@@ -13,7 +13,7 @@ function gradient(::typeof(*), grad, out_size, output, lhs::AbstractVecOrMat, rh
     for i = 1:r1
         for j = 1:l1
             for k = 1:out_size
-                grad_l[k, (j-1)*r1 + i] += rhs[i, 1] * grad[k, j]
+                grad_l[k, (i-1)*l1 + j] += rhs[i, 1] * grad[k, j]
                 grad_r[k, i] += lhs[j, i] * grad[k, j]
             end
         end

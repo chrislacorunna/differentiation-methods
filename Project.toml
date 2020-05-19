@@ -1,5 +1,5 @@
-name = "AutomaticDiff"
-uuid = "9208c16c-1f39-4e9d-84ee-caa3e78d7b02"
+name = "differentiation-methods"
+uuid = "b45e4eaf-6236-4b0c-b45f-9cb0b8afafc5"
 authors = ["Maciej Tarnowski <maciek_tarnowski@yahoo.pl>"]
 version = "0.1.0"
 

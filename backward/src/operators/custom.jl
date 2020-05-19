@@ -10,5 +10,10 @@ function gradient(::typeof(mean_squared_loss), grad, out_size, output, y, ŷ)
 end
 =#
 function gradient(mt::Trait.Broadcasted{typeof(mean_squared_loss)}, grad, out_size, output, y, ŷ)
-    (@.(grad * (2*y - 2*ŷ)), @.(grad * (2*ŷ - 2*y)), )
+    println("grad")
+    @show y
+    @show ŷ
+    t_grad = transpose(grad)
+    @show t_grad
+    transpose.((@.(t_grad * (2*y - 2*ŷ)), @.(t_grad * (2*ŷ - 2*y)), ))
 end

@@ -43,6 +43,7 @@ mean_squared_loss(y, ŷ) = sum((y - ŷ).^2)
 linear(x) = x
 
 J = function jacobian(f, args::Vector{T}) where {T <:Number}
+  @show args
   jacobian_columns = Matrix{T}[]
   for i=1:length(args)
     x = Dual{T}[]
@@ -58,31 +59,40 @@ J = function jacobian(f, args::Vector{T}) where {T <:Number}
   return hcat(jacobian_columns...)
 end
 
-function net(x, wh, wo, y)
-  @show x̂ = dense(wh, 3, 2, x, σ)
-  @show ŷ = dense(wo, 1, 3, x̂, linear)
-  @show E = mean_squared_loss(y, ŷ)
+function net(x, wi, wh, wo, y)
+  @show xd = dense(wi, 2, 2, x, linear)
+  @show x̂ = dense(wh, 3, 2, xd, linear)
+  @show ŷ = dense(wo, 2, 3, x̂, linear)
+  @show E = mean_squared_loss.(y, ŷ)
 end
 
-dnet_Wh(x, wh, wo, y) = J(w -> net(x, w, wo, y), wh);
-dnet_Wo(x, wh, wo, y) = J(w -> net(x, wh, w, y), wo);
+dnet_Wi(x, wi, wh, wo, y) = J(w -> net(x, w, wh, wo, y), wi);
+dnet_Wh(x, wi, wh, wo, y) = J(w -> net(x, wi, w, wo, y), wh);
+dnet_Wo(x, wi, wh, wo, y) = J(w -> net(x, wi, wh, w, y), wo);
 
 function main()
   println("-----------------------------------------")
-  @show Wh = [0.1965 -0.3744; -0.2722 1.6953; 1.1232 -0.898]
-  @show Wo = [0.2102 -1.1416 -0.3463]
+  @show Wi = [1. 0.5; 1. 0.5]
+  @show Wh = [1. 1.; 1. 1.; 1. 1.]
+  @show Wo = [1. 2. 3.; 2. 4. 6.]
   println()
-  x = [1.98;4.434]
-  y = [0.064]
+  x = [0.5; 1.]
+  y = [0.; 0.]
   dWh = similar(Wh)
   dWo = similar(Wo)
 
   epochs = 1
   for i=1:epochs
-    @show dWh[:] = dnet_Wh(x, Wh[:], Wo[:], y)
-    @show dWo[:] = dnet_Wo(x, Wh[:], Wo[:], y)
-    @show dWh
-    @show dWo
+    #@show dWh[:] = dnet_Wh(x, Wh[:], Wo[:], y)
+    #@show dWo[:] = dnet_Wo(x, Wh[:], Wo[:], y)
+    dwi = dnet_Wi(x, Wi[:], Wh[:], Wo[:], y)
+    dwh = dnet_Wh(x, Wi[:], Wh[:], Wo[:], y)
+    dwo = dnet_Wo(x, Wi[:], Wh[:], Wo[:], y)
+    @show dwi
+    @show dwh
+    @show dwo
+    #@show dWh
+    #@show dWo
     Wh -= 0.1dWh
     Wo -= 0.1dWo
   end
