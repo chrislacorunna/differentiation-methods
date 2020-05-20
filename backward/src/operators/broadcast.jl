@@ -33,11 +33,7 @@ end
 #
 function backward(node::CachedNode, ::Trait.Broadcasted, grad, out_size)
     grad_inputs = gradient(node, grad, out_size)
-    a = args(node)
-    #@show "Broadcast"
-    #@show a
-    #@show grad_inputs
-    for (each, each_grad) in zip(a, grad_inputs)
+    for (each, each_grad) in zip(args(node), grad_inputs)
         backward(each, each_grad, out_size)
     end
     nothing

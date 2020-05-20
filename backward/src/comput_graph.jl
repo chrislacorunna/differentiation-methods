@@ -66,8 +66,27 @@ mutable struct Variable{T} <: LeafNode
 
     Variable(val::T) where T = new{T}(val)
     Variable(val::T, grad::T) where T = new{T}(val)
+
+    function Variable(val::Array{Float64, 1})
+        arr = Array{Float64, 2}(undef, size(val, 1), 1)
+        for i in 1:size(val, 1)
+            arr[i, 1] = val[i]
+        end
+        new{Array{Float64, 2}}(arr)
+    end
+    #=
+    function Variable(val::Array{VT, 1} where VT <: Number)
+        arr = Array{VT, 2}(undef, size(val, 1), 1)
+        for i in 1:size(val, 1)
+            arr[i, 1] = val[i]
+        end
+        new{Array{VT, 2}}(arr)
+    end
+    =#
 end
 
+Base.getindex(x::Variable{Array{Float64,2}}, a::Int64, b::Int64) = getindex(x.value, a, b)
+Base.setindex!(x::Variable{Array{Float64,2}}, v::Float64, a::Int64, b::Int64) = setindex!(x.value, v, a, b)
 """
     Node{FT, ArgsT} <: AbstractNode
 
@@ -241,11 +260,7 @@ function backward(node::CachedNode, f, grad, out_size)
     # @boundscheck backward_size_assert(node, grad)
 
     grad_inputs = gradient(node, grad, out_size)
-    a = args(node)
-    #@show "Linear"
-    #@show a
-    #@show grad_inputs
-    for (each, each_grad) in zip(a, grad_inputs)
+    for (each, each_grad) in zip(args(node), grad_inputs)
         backward(each, each_grad, out_size)
     end
     nothing

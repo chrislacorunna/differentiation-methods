@@ -13,13 +13,6 @@ include("operators/broadcast.jl")
 include("operators/linalg.jl")
 include("operators/custom.jl")
 include("operators/math.jl")
-include("operators/array.jl")
-include("operators/cat.jl")
-include("operators/batched.jl")
-
-
-# printings
-include("show.jl")
 
 # utils
 include("utils.jl")
