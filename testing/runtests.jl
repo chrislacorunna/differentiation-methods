@@ -6,7 +6,7 @@ for PATH in ("/global", "/testing", "/manual", "/forward", "/backward/test", "/b
     if MODULE_PATH ∉ LOAD_PATH  push!(LOAD_PATH, MODULE_PATH) end
 end
 
-using BenchmarkTools, Global, TestTools, ForwardTest, BackwardTest
+using Global, TestTools, ForwardTest, BackwardTest
 
 test_cases = TestCase[]
 test_data = Layer[]
@@ -42,8 +42,8 @@ run_tests(test_cases)
 #= the results of this one specific network can be also compared with the manual version
     (proof of general correctness) =#
 
-using ManualDiff
-println("-----------------------------------------")
-println("Manual")
-println("-----------------------------------------")
-manual()
+#using ManualDiff
+#println("-----------------------------------------")
+#println("Manual")
+#println("-----------------------------------------")
+#manual()

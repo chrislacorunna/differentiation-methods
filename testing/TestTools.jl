@@ -1,7 +1,7 @@
 module TestTools
 export TestFun, TestCase, run_tests, neuralnet_test, Layer, arr2d
 
-using Global
+using BenchmarkTools, Global
 
 arr2d(x::Array{T}) where T <: Number = reshape(x, size(x, 1), size(x, 2))
 
@@ -22,6 +22,9 @@ function neuralnet_test(test_data::Array{Layer, 1}, test_funs::Array{TestFun, 1}
         println("-----------------------------------------")
         println(fun.name)
         println("-----------------------------------------")
+        # benchmark
+        #global f = () -> fun.ref(test_data, epochs)
+        #display(@benchmark f())
         jacobians = fun.ref(test_data, epochs)
         println("\nJacobian matrices for all coefficients after error minimization:")
         for i = 1:size(jacobians, 1)
