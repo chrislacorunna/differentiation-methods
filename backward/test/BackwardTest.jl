@@ -1,5 +1,5 @@
 module BackwardTest
-using Global, TestTools, BackwardDiff
+using Statistics, Global, TestTools, BackwardDiff
 
 function neuralnet_test(layers::Array{Layer, 1}, epochs)
     grads = Array{Float64, 2}[]
