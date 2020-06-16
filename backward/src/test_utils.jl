@@ -2,8 +2,8 @@ module TestUtils
 
 export gradcheck
 
-using AutomaticDiff
-import AutomaticDiff: AbstractNode
+using BackwardDiff
+import BackwardDiff: AbstractNode
 
 make_jacobian(input::AbstractArray, num_out::Int) = (zeros(eltype(input), length(input), num_out), )
 make_jacobian(input::Variable, num_out::Int) = make_jacobian(value(input), num_out)

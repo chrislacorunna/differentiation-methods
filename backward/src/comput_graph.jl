@@ -1,5 +1,5 @@
 export AbstractNode, LeafNode
-export Variable, Node, CachedNode, forward, gradient, backward, value, args, arg, operator
+export Variable, Node, CachedNode, forward, gradient, backward, value, grad, args, arg, operator
 export register
 
 # export register!
@@ -17,7 +17,7 @@ abstract type Operator end
 This module contains function traits as a subtype of [`Operator`](@ref).
 """
 module Trait
-import AutomaticDiff: Operator
+import BackwardDiff: Operator
 
 """
     Method{FT} <: Operator
@@ -193,6 +193,8 @@ end
 value(x::Variable) = x.value
 value(x::CachedNode) = value(x.output)
 
+grad(x::Variable) = x.grad
+
 """
     forward(node) -> output
 
@@ -235,20 +237,20 @@ backward(x, grad, out_size) = nothing
 backward(x::AbstractNode) = backward(x::AbstractNode, init_grad(x.output), size(x.output, 1))
 
 function backward(x::Variable, grad, out_size)
-    if isdefined(x, :grad)
-        x.grad += grad
-    else
-        x.grad = grad
-    end
+    #if isdefined(x, :grad)
+        #x.grad += grad
+    #else
+    x.grad = grad
+    #end
     nothing
 end
 
 function backward(x::Variable, grad::SubArray, out_size)
-    if isdefined(x, :grad)
-        x.grad += grad
-    else
-        x.grad = copyto!(similar(x.value), grad)
-    end
+    #if isdefined(x, :grad)
+        #x.grad += grad
+    #else
+    x.grad = copyto!(similar(x.value), grad)
+    #end
     nothing
 end
 

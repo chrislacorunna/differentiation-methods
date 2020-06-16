@@ -1,6 +1,6 @@
-module AutomaticDiff
+module BackwardDiff
 
-using DiffRules
+using DiffRules, Global
 
 abstract type AbstractNode end
 abstract type Operator end
@@ -20,4 +20,4 @@ include("utils.jl")
 include("test_utils.jl")
 
 
-end # module
+end # module BackwardDiff
