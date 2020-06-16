@@ -1,10 +1,6 @@
 module BackwardTest
 using Global, TestTools, BackwardDiff
 
-include("myTest.jl")
-include("myTest2.jl")
-include("myTest3.jl")
-
 function neuralnet_test(layers::Array{Layer, 1}, epochs)
     grads = Array{Float64, 2}[]
     grads_raw = Array{Float64, 2}[]
