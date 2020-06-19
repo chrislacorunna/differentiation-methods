@@ -2,7 +2,7 @@ module TestTools
 export TestFun, TestCase, run_tests, neuralnet_test, Layer, arr2d
 
 using BenchmarkTools, Global, Dates
-
+BenchmarkTools.DEFAULT_PARAMETERS.samples = 5
 arr2d(x::Array{T}) where T <: Number = reshape(x, size(x, 1), size(x, 2))
 
 struct TestFun
