@@ -54,7 +54,7 @@ function net(layers::Array{Layer, 1})
 
     #TODO: eval passed parameter or other automatic way to run verbose/silent for tests/benchmarks
     if first_call
-        println("Error after epoch $curr_epoch:\t$(value.(x))");
+        println("Result after epoch $curr_epoch:\t$(value.(x))");
         global first_call = false
     end
     x

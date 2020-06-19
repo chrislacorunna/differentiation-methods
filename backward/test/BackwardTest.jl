@@ -26,7 +26,7 @@ function neuralnet_test(layers::Array{Layer, 1}, epochs)
                 x = dense(variables[i], x, l.f)
         end
         backward(x)
-        println("Error after epoch $n:\t$(x.output)")
+        println("Result after epoch $n:\t$(x.output)")
         for i = 1:size(grads, 1)
             grads_raw[i] = grad(variables[i])
             grads[i][:] = mean(grads_raw[i], dims=1)
