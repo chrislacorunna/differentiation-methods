@@ -7,7 +7,7 @@ for PATH in ("/global", "/testing", "/manual", "/forward", "/backward/test", "/b
 end
 
 using Global, TestTools, ForwardTest, BackwardTest
-
+epochs = 5
 test_cases = TestCase[]
 test_data = Layer[]
 #use arr2d to define matrices
@@ -35,9 +35,22 @@ test_funs = TestFun[]
 push!(test_funs, TestFun("Forward", ForwardTest.neuralnet_test))
 push!(test_funs, TestFun("Backward", BackwardTest.neuralnet_test))
 
-push!(test_cases, (TestCase(() -> neuralnet_test(test_data, test_funs))))
+push!(test_cases, (TestCase(() -> neuralnet_test(test_data, test_funs, epochs, benchmark=true))))
 
 run_tests(test_cases)
+############################################################################
+test_cases1 = TestCase[]
+test_data1 = Layer[]
+
+Wh = arr2d([5.; 11.])
+x = arr2d([1.])
+push!(test_data1, Layer(Wh, x, σ))
+ref_solution_sigm = arr2d([0.9933071490757153; 0.999983298578152])
+
+epochs = 10
+push!(test_data1, Layer(ref_solution_sigm, mean_squared_loss))
+push!(test_cases1, (TestCase(() -> neuralnet_test(test_data1, test_funs, epochs))))
+run_tests(test_cases1)
 
 #= the results of this one specific network can be also compared with the manual version
     (proof of general correctness) =#

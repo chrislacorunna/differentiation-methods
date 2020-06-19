@@ -16,19 +16,22 @@ struct TestCase
 end
 
 #WARNING: this assumes that if mean_squared_loss is used, it's at the last layer
-function neuralnet_test(test_data::Array{Layer, 1}, test_funs::Array{TestFun, 1})
-    epochs = 1
+function neuralnet_test(test_data::Array{Layer, 1}, test_funs::Array{TestFun, 1}, epochs; benchmark=false)
     for fun in test_funs
         println("-----------------------------------------")
         println(fun.name)
         println("-----------------------------------------")
-        # benchmark
-        # global f = () -> fun.ref(test_data, epochs)
-        # display(@benchmark f())
-        jacobians = fun.ref(test_data, epochs)
-        println("\nJacobian matrices for all coefficients after error minimization:")
-        for i = 1:size(jacobians, 1)
-            println("Layer $i:\t$(jacobians[i])")
+        if benchmark
+            global f = () -> fun.ref(test_data, epochs, benchmark)
+            display(@benchmark f())
+        else
+            jacobians = fun.ref(test_data, epochs, benchmark)
+        end
+        if !benchmark
+            println("\nJacobian matrices for all coefficients after error minimization:")
+            for i = 1:size(jacobians, 1)
+                println("Layer $i:\t$(jacobians[i])")
+            end
         end
     end
 end

@@ -1,7 +1,7 @@
 module BackwardTest
 using Statistics, Global, TestTools, BackwardDiff
 
-function neuralnet_test(layers::Array{Layer, 1}, epochs)
+function neuralnet_test(layers::Array{Layer, 1}, epochs, benchmark)
     grads = Array{Float64, 2}[]
     grads_raw = Array{Float64, 2}[]
     variables = Variable[]
@@ -26,7 +26,7 @@ function neuralnet_test(layers::Array{Layer, 1}, epochs)
                 x = dense(variables[i], x, l.f)
         end
         backward(x)
-        println("Result after epoch $n:\t$(x.output)")
+        if !benchmark   println("Result after epoch $n:\t$(x.output)") end
         for i = 1:size(grads, 1)
             grads_raw[i] = grad(variables[i])
             grads[i][:] = mean(grads_raw[i], dims=1)
@@ -36,9 +36,11 @@ function neuralnet_test(layers::Array{Layer, 1}, epochs)
             variables[i].value -= 0.1grads[i]
         end
     end
-    println("\nCoefficients after error minimization:")
-    for i = 1:size(grads, 1)
-        println("Layer $i:\t$(value(variables[i]))")
+    if !benchmark
+        println("\nCoefficients after error minimization:")
+        for i = 1:size(grads, 1)
+            println("Layer $i:\t$(value(variables[i]))")
+        end
     end
     grads_raw
 end
