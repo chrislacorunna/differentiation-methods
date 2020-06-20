@@ -23,7 +23,7 @@ test_data1 = Layer[]
 Wh = arr2d([5.; 11.])
 x = arr2d([1.])
 push!(test_data1, Layer(Wh, x, σ))
-ref_solution_sigm = arr2d([0.9933071490757153; 0.999983298578152])
+ref_solution_sigm = arr2d([0.9933071490757151; 0.999983298578152])
 
 
 push!(test_data1, Layer(ref_solution_sigm, mean_squared_loss))
@@ -90,7 +90,6 @@ x = arr2d([1.])
 push!(test_data5, Layer(Wh, x, σ))
 ref_solution_sigm = arr2d([1.9233071490757153; 1.929983298578152])
 
-push!(test_data5, Layer(ref_solution_sigm, mean_squared_loss))
 push!(test_cases5, (TestCase(() -> neuralnet_test(test_data5, test_funs, 1))))
 run_tests(test_cases5)
 
@@ -106,7 +105,6 @@ x = arr2d([1.])
 push!(test_data6, Layer(Wh, x, linear))
 ref_solution_sigm = arr2d([6.; 12.])
 
-push!(test_data6, Layer(ref_solution_sigm, mean_squared_loss))
 push!(test_cases6, (TestCase(() -> neuralnet_test(test_data6, test_funs, 1))))
 run_tests(test_cases6)
 
@@ -122,7 +120,6 @@ x = arr2d([1.])
 push!(test_data7, Layer(Wh, x, ReLU))
 ref_solution_sigm = arr2d([6.; 12.])
 
-push!(test_data7, Layer(ref_solution_sigm, mean_squared_loss))
 push!(test_cases7, (TestCase(() -> neuralnet_test(test_data7, test_funs, 1))))
 run_tests(test_cases7)
 
@@ -132,11 +129,10 @@ println("Testing Softmax function on incorrect result")
 
 test_cases8 = TestCase[]
 test_data8 = Layer[]
-Wh = arr2d([5.; 11.])
+Wh = arr2d([log(1); log(2); log(3); log(4)])
 x = arr2d([1.])
 push!(test_data8, Layer(Wh, x, softmax))
-ref_solution = arr2d([1.0024726231566348; 1.99752737684337])
 
-push!(test_data8, Layer(ref_solution_sigm, mean_squared_loss))
+
 push!(test_cases8, (TestCase(() -> neuralnet_test(test_data8, test_funs, 1))))
 run_tests(test_cases8)
