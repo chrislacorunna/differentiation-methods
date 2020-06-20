@@ -14,10 +14,4 @@ include("operators/linalg.jl")
 include("operators/custom.jl")
 include("operators/math.jl")
 
-# utils
-include("utils.jl")
-# test utils
-include("test_utils.jl")
-
-
 end # module BackwardDiff

@@ -3,7 +3,6 @@ export forward
 
 using Global
 
-#TODO: store all partial results and use them
 import DualNum.Dual, DualNum.partials
 J = function jacobian(fun, layers::Array{Layer, 1}, ind, benchmark)
     coeffs = layers[ind].W

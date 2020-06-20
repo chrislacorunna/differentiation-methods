@@ -59,12 +59,14 @@ function manual()
         Wh -= 0.1dWh
         Wo -= 0.1dWo
     end
-    println("\nJacobian matrices for all coefficients after error minimization:")
-    @show Wh
-    @show Wo
-    println("\nCoefficients after error minimization:")
-    @show dWh
-    @show dWo
+    println("\nJacobian matrices for all coefficients after the last epoch:")
+    println("Layer1:\t$Wh")
+    println("Layer1:\t$Wo")
+    println("\nCoefficients after the last epoch:")
+    dWh = reshape(dWh, 1, length(dWh))
+    dWo = reshape(dWo, 1, length(dWo))
+    println("Layer1:\t$dWh")
+    println("Layer1:\t$dWo")
 end
 
 end #module ManualDiff

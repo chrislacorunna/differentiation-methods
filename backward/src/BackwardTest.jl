@@ -37,7 +37,7 @@ function neuralnet_test(layers::Array{Layer, 1}, epochs, benchmark)
         end
     end
     if !benchmark
-        println("\nCoefficients after error minimization:")
+        println("\nCoefficients after the last epoch:")
         for i = 1:size(grads, 1)
             println("Layer $i:\t$(value(variables[i]))")
         end

@@ -1,4 +1,3 @@
-#TODO: rename
 module Global
 export dense, mean_squared_loss, linear, σ, ReLU, softmax, Layer
 

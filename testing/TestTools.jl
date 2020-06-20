@@ -10,8 +10,8 @@ struct TestFun
     ref
 end
 
-#TODO: test_f[]::typeof(testing_fun)
 struct TestCase
+    name::String
     fun
 end
 
@@ -24,11 +24,12 @@ function neuralnet_test(test_data::Array{Layer, 1}, test_funs::Array{TestFun, 1}
         if benchmark
             global f = () -> fun.ref(test_data, epochs, benchmark)
             display(@benchmark f())
+            println()
         else
             jacobians = fun.ref(test_data, epochs, benchmark)
         end
         if !benchmark
-            println("\nJacobian matrices for all coefficients after error minimization:")
+            println("\nJacobian matrices for all coefficients after the last epoch:")
             for i = 1:size(jacobians, 1)
                 println("Layer $i:\t$(jacobians[i])")
             end
@@ -39,8 +40,8 @@ end
 function run_tests(test_cases::Array{TestCase, 1})
     n = 1
     for case in test_cases
-        println("-----------------------------------------")
-        println("Test $n")
+        println("--------------------------------------------------------")
+        println("$(case.name)")
         case.fun()
         n+=1
     end

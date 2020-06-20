@@ -34,7 +34,7 @@ function neuralnet_test(layers::Array{Layer, 1}, epochs, benchmark)
         end
     end
     if !benchmark
-            println("\nCoefficients after error minimization:")
+            println("\nCoefficients after the last epoch:")
         for i = 1:size(grads, 1)
             println("Layer $i:\t$(coeff(layers[i]))")
         end
@@ -54,7 +54,6 @@ function net(layers::Array{Layer, 1}, benchmark)
             x = dense(l.W, x, l.f)
     end
 
-    #TODO: eval passed parameter or other automatic way to run verbose/silent for tests/benchmarks
     if !benchmark
         if first_call
             println("Result after epoch $curr_epoch:\t$(value.(x))");

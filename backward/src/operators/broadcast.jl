@@ -19,14 +19,8 @@ end
 
 Broadcast.materialize(x::AbstractNode) = register(Broadcast.materialize, x)
 
-# NOTE: we don't need it anymore since we implemented backward for materialize
-# gradient(::typeof(Broadcast.materialize), grad, output, x) = (grad, )
-
 # directly forward to broadcasted
 function backward(node::CachedNode, ::typeof(Broadcast.materialize), grad, out_size)
-    # backward_type_assert(node, grad)
-    # TODO: replace with @assert when there is a compiler option for it
-    # @boundscheck backward_size_assert(node, grad)
     backward(arg(node, 1), grad, out_size)
 end
 
